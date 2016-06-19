@@ -1,0 +1,49 @@
+﻿<div id="cart-container">
+    <div class="row">
+        <div class="col-md-12 content-wrapper">
+            @foreach (var book in Factory.GetBookCart.BookItems)
+            {
+                <div class="col-sm-4 col-md-3">
+                    <div class="product">
+                        <div>
+                            <a href="/Book/Detail/@book.Id"><img src="@book.ImageUrl" class="img-responsive img-align-center-300" alt="Изображение обложки"></a>
+                        </div>
+                        <div class="product-info book-title-min-height">
+                            <h4><a href="/Book/Detail/@book.Id">@book.Title</a></h4>
+                            <p>@book.Authors[0].FirstName @book.Authors[0].LastName</p>
+                        </div>
+                        <a id="@book.Id" class="btn btn-flat flat-danger button-remove btn-full"><span class="glyphicon glyphicon-remove-sign"></span> Убрать</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Did not work otherwise -->
+    <script type="text/javascript">
+        $(function() {
+            $('.button-remove')
+                .click(function() {
+                    $.ajax({
+                        url: '/Book/RemoveFromCart/' + (this).id,
+                        type: 'GET',
+                        success: function(partialView) {
+                            $('#cart-container').html(partialView);
+                            $('#cart-container').show();
+                        }
+                    });
+                });
+        });
+    </script>
+
+    @if (Factory.GetBookCart.BookItems.Any())
+    {
+        <div class="row">
+            <a href="/Book/Checkout" class="btn btn-flat flat-primary btn-full"><span class="glyphicon glyphicon-check"></span> Забронировать</a>
+        </div>
+    }
+    else
+    {
+        <h1>Советуем ознакомиться с нашим каталогом!</h1>
+    }
+</div>

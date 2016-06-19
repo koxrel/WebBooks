@@ -1,0 +1,101 @@
+﻿@using System.Linq
+
+@model IEnumerable<WebBooks.Entities.Book>
+@{
+    ViewBag.Title = "Каталог";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="shop-1" class="section layout-1">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 content-wrapper">
+                <div class="row">
+                    @if (ViewBag.Books != null)
+                    {
+                        foreach (var book in ViewBag.Books)
+                        {
+                            <div class="col-sm-6 col-md-4">
+                                <div class="product">
+                                    <div>
+                                        <a href="/Book/Detail/@book.Id"><img src="@book.ImageUrl" class="img-responsive img-align-center-300" alt="Изображение обложки"></a>
+                                    </div>
+                                    <div class="product-info book-title-min-height">
+                                        <h4><a href="/Book/Detail/@book.Id">@book.Title</a></h4>
+                                        <p>@book.Authors[0].FirstName @book.Authors[0].LastName</p>
+                                    </div>
+                                    @if (Factory.GetBookCart.BookItems.Any(b => b.Id == book.Id))
+                                    {
+                                        <a class="btn btn-flat flat-primary btn-full"><span class="glyphicon glyphicon-ok"></span> Уже добавлено</a>
+                                    }
+                                    else if (book.Quantity != 0)
+                                    {
+                                        <a id="@book.Id" class="btn btn-flat flat-color button-add btn-full"><span class="glyphicon glyphicon-book"></span> Добавить в список</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-flat flat-default btn-full"><span class="glyphicon glyphicon-time"></span> Выданы</a>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <h4>Не найдено...</h4>
+                    }
+                </div>
+            </div>
+            <div class="col-md-3 sidebar">
+                <div class="widget search">
+                    <form class="search-form" method="post" action="/Book/Search/">
+                        <input type="text" name="id" class="form-control" placeholder="Поиск по автору/названию...">
+                    </form>
+                </div>
+                <div class="widget shopping-cart">
+                    <h5 class="subpage-title"><span class="glyphicon glyphicon-book"></span> Мой список</h5>
+                    <ul class="cart-items">
+                        @Html.Partial("_CartItems")
+                    </ul>
+                    <div class="cart-action">
+                        <div class="view-cart">
+                            <a href="/Book/Cart" class="btn flat-inverse btn-xs btn-block btn-flat" style="margin-top: 3px">Просмотреть</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget categories">
+                    <h5 class="subpage-title">Жанры</h5>
+                    <ul class="widget-list">
+                        @if (ViewBag.Genres != null)
+                        {
+                            foreach (var genre in ViewBag.Genres)
+                            {
+                                <li><a href="/Book/Genre/@genre.Id">@genre.Name</a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $('.button-add').click(function () {
+
+                $.ajax({
+                    url: '/Book/AddToCart/' + (this).id,
+                    type: 'GET',
+                    success: function (partialView) {
+                        $('.cart-items').html(partialView);
+                        $('.cart-items').show();
+                    }
+                });
+                $(this).removeClass().addClass('btn btn-flat flat-primary').text('Добавлено');
+            });
+        });
+    </script>
+}

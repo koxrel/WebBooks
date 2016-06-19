@@ -1,0 +1,15 @@
+﻿@using WebBooks.Models
+@if (Factory.GetBookCart.BookItems.Count != 0)
+{
+    foreach (var bookItem in Factory.GetBookCart.BookItems)
+    {
+        <li>
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <img class="img-cart-item" src="@bookItem.ImageUrl" alt="Изображение книги">
+            <h5>
+                <a href="/Book/Detail/@bookItem.Id">@bookItem.Title</a>
+                <span style="color: grey; font-size: 11px">@bookItem.Authors[0].FirstName @bookItem.Authors[0].LastName</span>
+            </h5>
+        </li>
+    }
+}

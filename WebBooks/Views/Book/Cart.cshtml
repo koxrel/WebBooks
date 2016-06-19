@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Список";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="shop-1" class="section layout-1">
+    <div class="container">
+        @Html.Partial("_CartForRemoval")
+    </div>
+</section>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $('.button-remove').click(function () {
+                $.ajax({
+                    url: '/Book/RemoveFromCart/' + (this).id,
+                    type: 'GET',
+                    success: function (partialView) {
+                        $('#cart-container').html(partialView);
+                        $('#cart-container').show();
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="~/assets/ico/favicon.png">
+    <title>@ViewBag.Title</title>
+
+    @Styles.Render("~/assets/css")
+    
+    @Styles.Render("~/assets/plugins")
+
+    <!-- REVOLUTION BANNER CSS SETTINGS -->
+    <link rel="stylesheet" type="text/css" href="~/assets/rs-plugin/css/settings.css" media="screen"/>
+
+    <!-- Google Fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic|Montserrat:400,700" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div id="main-wrapper" class="color-skin-3">
+    <header id="header-1" class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-8 header-info-wrapper">
+                    <ul class="list-inline">
+                        <li><i class="icon-mobile-phone"></i> Телефон: (495) 456-7890</li>
+                        <li><i class="icon-envelope"></i> E-mail: <a href="mailto:library@moscow.com">library@moscow.com</a></li>
+                    </ul>
+                </div>
+                <div class="col-xs-12 col-sm-4 header-info-wrapper" align="right">
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+        </div>
+    </header>
+    <header id="header-2" class="header">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Навигация</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="~/">Web<span>Books.</span></a>
+                </div>
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            @Html.ActionLink("Главная", "Index", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Книги", "Main", "Book")
+                        </li>
+                        <li>
+                            @Html.ActionLink("О нас", "About", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Контакты", "Contact", "Home")
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- The part where the main body of the page is rested -->
+    @RenderBody()
+
+    <footer id="footer-1" class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget about-us center-block">
+                        <span class="footer-brand">Web<span>Books.</span></span>
+                        <p>Надеемся, что сможем оказать Вам максимально возможную поддержку.</p>
+                        <p>
+                            WebBooks &mdash; это платформа, позволяющая сотрудникам библиотеки донести свои фонды до читателей. Мы ориентируемся на открытость
+                            и вседоступность образования и мировой культуры.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <footer id="footer-2" class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-lg-6">
+                    <span>Webbooks © 2016. </span>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-6" align="right">
+                    <span>мы делаем книги лучше!</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+    <!-- At the end of the document (for the page to load faster) -->
+    @Scripts.Render("~/assets/jquery")
+    @Scripts.Render("~/assets/bootstrap")
+
+    @RenderSection("Scripts", false)
+</body>
+</html>

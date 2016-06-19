@@ -1,0 +1,101 @@
+﻿@model WebBooks.Entities.Book
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="shop-1" class="section layout-1">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 content-wrapper">
+                <div class="wrapper-1">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div>
+                                <img src="@Html.DisplayTextFor(model => model.ImageUrl)" class="img-responsive img-align-center-500" alt="Изображение обложки">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 product-info product-info-2">
+                            <h2>@Html.DisplayTextFor(model => model.Title)</h2>
+                            <h4>@ViewBag.Authors</h4>
+                            <div class="wrapper-2">
+                                @if (Factory.GetBookCart.BookItems.Any(b => b.Id == Model.Id))
+                                {
+                                    <a class="btn btn-flat flat-primary btn-full"><span class="glyphicon glyphicon-ok"></span> Уже добавлено</a>
+                                }
+                                else if (Model.Quantity != 0)
+                                {
+                                    <a id="button-add" class="btn btn-flat flat-color btn-full"><span class="glyphicon glyphicon-book"></span> Добавить в список</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-flat flat-default btn-full"><span class="glyphicon glyphicon-time"></span> Выданы</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapper-1">
+                    <ul class="nav nav-tabs" id="myTab">
+                        <li class="active"><a href="#home" data-toggle="tab">Описание</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="home">
+                            @Html.DisplayTextFor(model => model.Description)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 sidebar">
+                <div class="widget search">
+                    <form class="search-form">
+                        <input type="text" class="form-control" placeholder="Поиск по названию/автору...">
+                    </form>
+                </div>
+                <!-- /.search -->
+                <div class="widget shopping-cart">
+                    <h5 class="subpage-title"><span class="glyphicon glyphicon-shopping-cart"></span> Мой список</h5>
+                    <ul id="cart-items" class="cart-items">
+                        @Html.Partial("_CartItems")
+                    </ul>
+                    <div class="cart-action">
+                        <div class="view-cart">
+                            <a href="/Book/Cart" class="btn btn-flat flat-inverse btn-xs btn-block">Просмотреть</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.shopping-cart -->
+            <div class="widget categories">
+                <h5 class="subpage-title">Жанры</h5>
+                <ul class="widget-list">
+                    @if (ViewBag.Genres != null)
+                    {
+                        foreach (var genre in ViewBag.Genres)
+                        {
+                            <li><a href="/Book/Genre/@genre.Id">@genre.Name</a></li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('#button-add').click(function () {
+                $.ajax({
+                    url: '/Book/AddToCart/@Model.Id',
+                    type: 'GET',
+                    success: function (partialView) {
+                        $('#cart-items').html(partialView);
+                        $('#cart-items').show();
+                    }
+                });
+                $('#button-add').removeClass().addClass('btn btn-flat flat-primary').text('Добавлено');
+            });
+        });
+    </script>
+}
